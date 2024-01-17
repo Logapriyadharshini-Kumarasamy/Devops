@@ -1,0 +1,106 @@
+---
+- name: Deploy docker container on multiple EC2 instances
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Gather facts
+      ansible.builtin.setup:  # Collect system information
+        gather_subset:
+          - all
+    - name: Update package cache
+      ansible.builtin.apt:
+        update_cache: yes
+      when: "'Ubuntu' in ansible_facts['distribution']"
+     
+    - name: Installing docker on Ubuntu instance
+      ansible.builtin.apt:
+        name: docker.io
+        state: present
+      ignore_errors: yes
+      when: "'Ubuntu' in ansible_facts['distribution']"
+    
+    - name: Install required dependencies for docker
+      ansible.builtin.yum:
+        name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: present
+      when: "'RedHat' in ansible_facts['distribution']"
+
+    - name: Add Docker CE repository
+      ansible.builtin.yum_repository:
+        name: docker-ce
+        description: Docker CE Stable - $basearch
+        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+        gpgcheck: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
+        enabled: yes
+      when: "'RedHat' in ansible_facts['distribution']"
+    
+    - name: Install Docker
+      ansible.builtin.yum:
+        name: docker-ce
+        state: present
+      when: "'RedHat' in ansible_facts['distribution']"
+ 
+    - name: Install Docker Python library
+      ansible.builtin.pip:
+        name: docker
+        state: present
+        
+    - name: Start and enable Docker service on Ubuntu
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+      when: "'Ubuntu' in ansible_facts['distribution']"
+
+    - name: Start and enable Docker service on Red Hat/CentOS
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: yes
+      when: "'RedHat' in ansible_facts['distribution']"
+      
+    - name: Adding ubuntu user to docker group 
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+      when: "'Ubuntu' in ansible_facts['distribution']"
+      
+    - name: Adding redhat user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+      when: "'RedHat' in ansible_facts['distribution']"
+
+    - name: Restart Docker daemon
+      systemd:
+        name: docker
+        state: restarted
+
+    - name: Pull Jenkins image
+      docker_image:
+        name: redis:latest
+        source: pull
+      ignore_errors: yes
+
+    - name: Running Docker container
+      community.general.docker_container:
+        name: Redis
+        image: redis:latest
+        ports:
+          - "8080:8080"
+        state: started
+    - name: Display container information
+      community.general.docker_container_info:
+        name: Redis
+      register: container_info
+
+    - name: Display container status
+      debug:
+        var: container_info.Status
