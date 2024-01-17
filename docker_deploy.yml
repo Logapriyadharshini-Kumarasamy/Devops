@@ -1,0 +1,55 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Deploying apache docker container
+      docker_container:
+              name: Apache_Docker_Container
+              image: httpd:latest
+              ports:
+                  - "80:80"
+              networks:
+                  - name: Apache_Network_Configuration
+                   
+    - name: Deploying FTP Server
+      docker_container:
+              name: FTP_Docker_Container
+              image: delfer/alpine-ftp-server:latest
+              ports:
+                 - "21:21"
+              networks:
+                 - name: FTP_Network_Configuration
+              
+    - name: Configuring_N/W_Apache
+      docker_network:
+              name: Apache_Network_Configuration
+              connected: Apache_Docker_Container
+              ipam_config: 
+                 - subnet: "172.27.0.0/16"
+                   gateway: "172.27.0.2"      
+    
+    - name: Configuring_N/W_FTP
+      docker_network:
+              name: FTP_Network_Configuration
+              ipam_config:
+                   - subnet: "172.28.0.0/16"
+                     gateway: "172.28.0.2"
+      notify:
+        - Restart Apache
+        - Restart FTP Server
+
+  handlers:
+    - name: Restart Apache
+      service:
+           docker_container:
+             - name: Apache_Docker_Container
+               state: restarted
+    - name: Restart FTP Server
+      service: 
+           docker_container:
+             - name: FTP_Docker_Container
+               state: restarted    
+                     
+
+
