@@ -12,6 +12,7 @@ pipeline {
                     sh 'ls -R'
                 }
             }
+         }
         stage('Build Docker Image') {
             steps {
                 script {
