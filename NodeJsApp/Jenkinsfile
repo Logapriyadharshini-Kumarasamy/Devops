@@ -21,9 +21,9 @@ pipeline {
             steps {
                 script {
                     // Print the directory structure for debugging
-                    dir('./NodeJsApp') {
-                        sh 'ls -R'
-                    }
+                    dir('/var/lib/jenkins/workspace/Docker-ECS') {
+                          sh 'ls -R'
+                     }
                 }
             }
         }
