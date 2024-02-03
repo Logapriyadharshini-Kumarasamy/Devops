@@ -6,13 +6,6 @@ pipeline {
                 checkout scm
             }
         }
-         stage('Print Workspace') {
-            steps {
-                script {
-                    sh 'ls -R'
-                }
-            }
-         }
         stage('Build Docker Image') {
             steps {
                 script {
@@ -20,5 +13,15 @@ pipeline {
                 }
             }
         }
+        stage('Run Unit Tests') {
+             steps {
+                script {
+                   docker.image('nodejs:tag','./NodeJsApp').inside {
+                   sh 'npm test'
+            }
+        }
+    }
+}
+
     }
 }
