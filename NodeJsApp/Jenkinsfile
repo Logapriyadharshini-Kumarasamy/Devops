@@ -27,7 +27,7 @@ pipeline {
             }
 
             steps {
-                        sh 'docer run nodeapp1:latest npm run test'         // Run tests
+                        sh 'docker run nodeapp1:latest npm run test'         // Run tests
                     
                     }
         }
