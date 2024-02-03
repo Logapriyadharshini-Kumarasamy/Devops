@@ -27,7 +27,7 @@ pipeline {
             }
 
             steps {
-                        sh 'npm -v'         // Run tests
+                        sh 'docer run nodeapp1:latest npm run test'         // Run tests
                     
                     }
         }
