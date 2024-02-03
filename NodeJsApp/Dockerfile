@@ -11,8 +11,6 @@ SECRET_KEY="sk_test_51L5AsSSCC8JVWfvgxpyZvQyBRRkHmGBkdyIa94vPD3Zs71qbHGrnSPlrJOI
 COPY package*.json ./
 
 RUN npm install 
-RUN apt install mocha
-RUN mocha --version
 
 
 COPY . .
