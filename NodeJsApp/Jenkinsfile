@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image from the NodeJsApp directory
-                    docker.build('nodeapp:latest', './NodeJsApp')
+                    docker.build('nodeapp1:latest', './NodeJsApp')
                 }
             }
         }
@@ -31,14 +31,14 @@ pipeline {
         stage('Run Unit Tests') {
             agent {
                 docker {
-                    image 'nodeapp:latest'
+                    image 'nodeapp1:latest'
                     args '-w /var/jenkins_home -v /var/jenkins_home:/var/jenkins_home'
                 }
             }
             steps {
                 script {
                     // Run npm test inside the Docker container
-                   dir('./NodeJsApp') { 
+                   dir('/usr/src/app/NodeJsApp') { 
                     sh 'npm test'
                    }
                 }
