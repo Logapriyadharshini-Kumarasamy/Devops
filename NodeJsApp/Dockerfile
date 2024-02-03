@@ -10,6 +10,7 @@ SECRET_KEY="sk_test_51L5AsSSCC8JVWfvgxpyZvQyBRRkHmGBkdyIa94vPD3Zs71qbHGrnSPlrJOI
 
 WORKDIR /usr/src/app
 RUN chmod -R 777 /usr/src/app
+RUN chown -R jenkins:jenkins /usr/src/app
 COPY package*.json ./
 
 RUN npm install
