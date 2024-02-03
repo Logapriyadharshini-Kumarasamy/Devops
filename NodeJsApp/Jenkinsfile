@@ -27,7 +27,7 @@ pipeline {
             }
 
             steps {
-                        sh 'ls -la /NodeJsApp/'         // Run tests
+                        sh 'npm -v'         // Run tests
                     
                     }
         }
