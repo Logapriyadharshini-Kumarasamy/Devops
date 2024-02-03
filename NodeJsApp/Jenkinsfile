@@ -13,6 +13,13 @@ pipeline {
                 }
             }
         }
+        stage('List Files Recursively') {
+            steps {
+                script {
+                    sh 'ls -R'
+                }
+            }
+        }
         stage('Run Unit Tests') {
              steps {
                 script {
