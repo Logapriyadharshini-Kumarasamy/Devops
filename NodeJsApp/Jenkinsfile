@@ -38,7 +38,9 @@ pipeline {
             steps {
                 script {
                     // Run npm test inside the Docker container
+                   dir('./NodeJsApp') { 
                     sh 'npm test'
+                   }
                 }
             }
         }
