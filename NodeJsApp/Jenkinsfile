@@ -9,7 +9,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('nodejs:tag','./NodeJsApp')
+                    docker.build('nodejs:latest','./NodeJsApp')
                 }
             }
         }
@@ -21,14 +21,18 @@ pipeline {
             }
         }
         stage('Run Unit Tests') {
-             steps {
+            agent {
+                docker {
+                    // Use an image that has Node.js installed
+                    image 'nodejs:latest'
+                    args '-u 127:134 -w /var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS:/var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS@tmp:/var/lib/jenkins/workspace/Docker-ECS@tmp'
+                }
+            }
+            steps {
                 script {
-                   docker.image('nodejs:tag').inside {
-                   sh 'npm test'
+                    sh 'npm test'
+                }
             }
         }
-    }
-}
-
     }
 }
