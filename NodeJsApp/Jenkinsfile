@@ -38,6 +38,7 @@ pipeline {
             steps {
                 script {
                     dir('/var/lib/jenkins/workspace/Docker-ECS@2/NodeJsApp') {
+                        sh 'ls -la'
                         sh 'npm test --loglevel=verbose '          // Run tests
                     }
                 }
