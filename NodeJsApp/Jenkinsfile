@@ -28,11 +28,11 @@ pipeline {
 
             steps {
                 script {
+                    dir('/usr/src/app'){
                         sh 'id'
-                        sh 'ls -la /usr/src/app'
+                        sh 'ls -la /usr/src/app/NodeJsApp'
                         sh 'npm test /usr/src/app'          // Run tests
-                    
-                }
+                    }                }
             }
         }
     }
