@@ -33,7 +33,7 @@ pipeline {
                 docker {
                     image 'nodeapp1:latest'
                     args  '-u root -w /usr/src/app/NodeJsApp -v /var/lib/jenkins/workspace/Docker-ECS:/usr/src/app/NodeJsApp'
-'
+
                 }
             }
             steps {
