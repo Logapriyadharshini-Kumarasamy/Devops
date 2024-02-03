@@ -30,7 +30,7 @@ pipeline {
             agent {
                 docker {
                     image 'nodejs:latest'
-                    args '-w /var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS:/var/lib/jenkins/workspace/Docker-ECS'
+                    args '-w /var/jenkins_home -v /var/jenkins_home:/var/jenkins_home'
                 }
             }
             steps {
