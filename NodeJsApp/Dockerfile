@@ -1,5 +1,5 @@
 # Our node app is based on `18-alpine` image 
-FROM node:ubuntu
+FROM ubuntu
 
 # Setting up the environment variables needed:
 ENV DOMAIN="http://localhost:3000" \
