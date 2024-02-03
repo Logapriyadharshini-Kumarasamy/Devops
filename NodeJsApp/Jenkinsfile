@@ -30,7 +30,7 @@ pipeline {
                 script {
                         sh 'id'
                         sh 'ls -la /usr/src/app'
-                        sh 'npm test --loglevel=verbose '          // Run tests
+                        sh 'npm test /usr/src/app'          // Run tests
                     
                 }
             }
