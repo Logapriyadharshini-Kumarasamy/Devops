@@ -13,13 +13,16 @@ pipeline {
                 }
             }
         }
-        stage('List Files Recursively') {
+        stage('Debug') {
             steps {
                 script {
+                   dir('/var/lib/jenkins/workspace/Docker-ECS') {
                     sh 'ls -R'
-                }
-            }
-        }
+         }
+      }
+   }
+}
+
         stage('Run Unit Tests') {
             agent {
                 docker {
@@ -30,7 +33,9 @@ pipeline {
             }
             steps {
                 script {
+                    dir('/var/lib/jenkins/workspace/Docker-ECS') {
                     sh 'npm test'
+                    }
                 }
             }
         }
