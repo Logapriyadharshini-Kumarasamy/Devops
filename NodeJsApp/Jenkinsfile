@@ -17,17 +17,7 @@ pipeline {
             }
         }
 
-        stage('Debug') {
-            steps {
-                script {
-                    // Print the directory structure for debugging
-                    dir('/usr/src/app') {
-                        sh 'ls -R'
-                    }
-                }
-            }
-        }
-
+        
         stage('Run Unit Tests') {
             agent {
                 docker {
@@ -35,12 +25,13 @@ pipeline {
                     args '-u root'
                 }
             }
+
             steps {
                 script {
-                    dir('/usr/src/app') {
-                        sh 'ls -la'
+                        sh 'id'
+                        sh 'ls -la /usr/src/app'
                         sh 'npm test --loglevel=verbose '          // Run tests
-                    }
+                    
                 }
             }
         }
