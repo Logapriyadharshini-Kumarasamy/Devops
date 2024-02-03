@@ -1,43 +1,45 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('nodejs:latest','./NodeJsApp')
+                    docker.build('nodejs:latest', './NodeJsApp')
                 }
             }
         }
+
         stage('Debug') {
             steps {
                 script {
-                   dir('/var/lib/jenkins/workspace/Docker-ECS') {
-                    sh 'ls -R'
-         }
-      }
-   }
-}
-
-       stage('Run Unit Tests') {
-    agent {
-        docker {
-            image 'nodejs:latest'
-            args '-u root -w /var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS:/var/lib/jenkins/workspace/Docker-ECS'
+                    dir('/var/lib/jenkins/workspace/Docker-ECS') {
+                        sh 'ls -R'
+                    }
+                }
+            }
         }
-    }
-    steps {
-        script {
-            dir('/var/lib/jenkins/workspace/Docker-ECS') {
-                sh 'npm test'
+
+        stage('Run Unit Tests') {
+            agent {
+                docker {
+                    image 'nodejs:latest'
+                    args '-w /var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS:/var/lib/jenkins/workspace/Docker-ECS'
+                }
+            }
+            steps {
+                script {
+                    dir('/var/lib/jenkins/workspace/Docker-ECS') {
+                        sh 'npm test'
+                    }
+                }
             }
         }
     }
-}
-
-}
 }
