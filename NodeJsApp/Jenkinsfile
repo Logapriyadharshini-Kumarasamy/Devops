@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Print the directory structure for debugging
-                    dir('/var/lib/jenkins/workspace/Docker-ECS') {
+                    dir('/var/lib/jenkins/workspace/Docker-ECS/NodeJsApp') {
                         sh 'ls -R'
                     }
                 }
@@ -32,12 +32,12 @@ pipeline {
             agent {
                 docker {
                     image 'nodeapp1:latest'
-                    args '-u root -w /usr/src/app/NodeJsApp -v /var/lib/jenkins/workspace/Docker-ECS:/usr/src/app/NodeJsApp'
+                    args '-u root -w /var/lib/jenkins/workspace/Docker-ECS/NodeJsApp -v /var/lib/jenkins/workspace/Docker-ECS/NodeJsApp'
                 }
             }
             steps {
                 script {
-                    dir('/usr/src/app/NodeJsApp') {
+                    dir('/var/lib/jenkins/workspace/Docker-ECS/NodeJsApp') {
                         sh 'mkdir -p node_modules'  // Create node_modules directory
                         sh 'npm install'            // Install dependencies
                         sh 'npm test'               // Run tests
