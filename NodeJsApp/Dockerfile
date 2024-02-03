@@ -12,7 +12,7 @@ COPY package*.json ./
 
 RUN npm install
 
-RUN npm install mocha
+RUN npm install -g mocha@8
 
 COPY . .
 
