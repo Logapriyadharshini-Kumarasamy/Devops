@@ -18,20 +18,20 @@ pipeline {
         }
 
         
-        stage('Run Unit Tests') {
-            agent {
-                docker {
-                    image 'nodeapp1:latest'
-                    args '-u root'
+       stage('Check Running Process') {
+            steps {
+                script {
+                    // Check if the process is running
+                    def processName = 'server.js'
+                    def isRunning = sh(script: "ps aux | grep -v grep | grep ${processName}", returnStatus: true) == 0
+
+                    if (isRunning) {
+                        echo "${processName} is running."
+                    } else {
+                        error("${processName} is not running.")
+                    }
                 }
             }
-
-            steps {
-                        sh 'ls -la'         // Run tests
-                    
-                    }
         }
-            }
-        }
-    
-
+    }
+}
