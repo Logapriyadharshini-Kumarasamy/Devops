@@ -11,6 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Build Docker image from the NodeJsApp directory
                     docker.build('nodejs:latest', './NodeJsApp')
                 }
             }
@@ -19,7 +20,8 @@ pipeline {
         stage('Debug') {
             steps {
                 script {
-                    dir('/var/lib/jenkins/workspace/Docker-ECS') {
+                    // Print the directory structure for debugging
+                    dir('./NodeJsApp') {
                         sh 'ls -R'
                     }
                 }
@@ -30,14 +32,13 @@ pipeline {
             agent {
                 docker {
                     image 'nodejs:latest'
-                    args '-w /var/jenkins_home -v /var/jenkins_home:/var/jenkins_home'
+                    args '-w /app -v /var/lib/jenkins/workspace/Docker-ECS:/app'
                 }
             }
             steps {
                 script {
-                    dir('/var/lib/jenkins/workspace/Docker-ECS') {
-                        sh 'npm test'
-                    }
+                    // Run npm test inside the Docker container
+                    sh 'npm test'
                 }
             }
         }
