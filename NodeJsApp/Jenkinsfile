@@ -16,7 +16,7 @@ pipeline {
         stage('Run Unit Tests') {
              steps {
                 script {
-                   docker.image('nodejs:tag','./NodeJsApp').inside {
+                   docker.image('nodejs:tag').inside {
                    sh 'npm test'
             }
         }
