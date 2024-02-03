@@ -27,7 +27,7 @@ pipeline {
             }
 
             steps {
-                dir(/NodeJsApp){
+                dir('/NodeJsApp'){
                         sh 'id'
                         sh 'ls -la'         // Run tests
                     } 
