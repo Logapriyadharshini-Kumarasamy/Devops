@@ -7,7 +7,7 @@
     "devStart": "nodemon server.js",
     "start": "node server.js"
   }
-  {
+  
   "scripts": {
     "test": "mocha"
   },
