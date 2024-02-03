@@ -22,30 +22,28 @@ pipeline {
                 script {
                     // Print the directory structure for debugging
                     dir('/var/lib/jenkins/workspace/Docker-ECS') {
-                          sh 'ls -R'
-                     }
+                        sh 'ls -R'
+                    }
                 }
             }
         }
 
         stage('Run Unit Tests') {
-    agent {
-        docker {
-            image 'nodeapp1:latest'
-            args '-u root -w /usr/src/app/NodeJsApp -v /var/lib/jenkins/workspace/Docker-ECS:/usr/src/app/NodeJsApp'
-        }
-    }
-    steps {
-        script {
-            dir('/usr/src/app/NodeJsApp') {
-                sh 'mkdir -p node_modules'  // Create node_modules directory
-                sh 'npm install'            // Install dependencies
-                sh 'npm test'               // Run tests
+            agent {
+                docker {
+                    image 'nodeapp1:latest'
+                    args '-u root -w /usr/src/app/NodeJsApp -v /var/lib/jenkins/workspace/Docker-ECS:/usr/src/app/NodeJsApp'
+                }
+            }
+            steps {
+                script {
+                    dir('/usr/src/app/NodeJsApp') {
+                        sh 'mkdir -p node_modules'  // Create node_modules directory
+                        sh 'npm install'            // Install dependencies
+                        sh 'npm test'               // Run tests
+                    }
+                }
             }
         }
     }
 }
-
-        }
-    }
-
