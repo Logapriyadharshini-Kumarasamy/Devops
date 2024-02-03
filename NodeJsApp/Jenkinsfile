@@ -24,16 +24,16 @@ pipeline {
 }
 
        stage('Run Unit Tests') {
-          agent {
-             docker {
-               image 'nodejs:latest'
-                args '-u 127:134 -w /var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS:/var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS@tmp:/var/lib/jenkins/workspace/Docker-ECS@tmp'
+    agent {
+        docker {
+            image 'nodejs:latest'
+            args '-u root -w /var/lib/jenkins/workspace/Docker-ECS -v /var/lib/jenkins/workspace/Docker-ECS:/var/lib/jenkins/workspace/Docker-ECS'
         }
     }
-           steps {
-              script {
-                  dir('/var/lib/jenkins/workspace/Docker-ECS') {
-                   sh 'npm test'
+    steps {
+        script {
+            dir('/var/lib/jenkins/workspace/Docker-ECS') {
+                sh 'npm test'
             }
         }
     }
