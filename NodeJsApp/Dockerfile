@@ -14,7 +14,7 @@ COPY package*.json ./
 
 RUN npm install
 
-RUN npm install --save-dev mocha
+RUN npm install mocha
 
 COPY . .
 
