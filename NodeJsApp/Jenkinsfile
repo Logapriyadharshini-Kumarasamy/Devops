@@ -32,7 +32,7 @@ pipeline {
             agent {
                 docker {
                     image 'nodeapp1:latest'
-                    args '-w /var/jenkins_home -v /var/jenkins_home:/var/jenkins_home'
+                    args '-u root -w /var/jenkins_home -v /var/jenkins_home:/var/jenkins_home'
                 }
             }
             steps {
