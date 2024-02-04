@@ -46,10 +46,13 @@ pipeline {
                         }
 
                         // Tag the Docker image with ECR repository information
-                        sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ECR_REPO/$IMAGE_NAME:$IMAGE_TAG"
+                        withDockerRegistry([credentialsId: '5bee2370-6a4f-4d90-a51a-52eb5632c548', url: "https://$ECR_REPO"]) {
+                            // Tag the Docker image with ECR repository information
+                            sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ECR_REPO/$IMAGE_NAME:$IMAGE_TAG"
 
-                        // Push the Docker image to ECR
-                        sh "docker push $ECR_REPO/$IMAGE_NAME:$IMAGE_TAG"
+                            // Push the Docker image to ECR
+                            sh "docker push $ECR_REPO/$IMAGE_NAME:$IMAGE_TAG"
+                        }
                     } else {
                         error("${processName} is not running.")
                     }
