@@ -5,7 +5,7 @@ pipeline {
         // AWS ECR details
         AWS_REGION = 'US East (N. Virginia)'
         ECR_REPO = 'nodejs-container'
-        IMAGE_NAME = 'nodeapp1'
+        IMAGE_NAME = 'nodeapplication'
         IMAGE_TAG = 'latest'
 
         // AWS credentials ID in Jenkins
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image from the NodeJsApp directory
-                    docker.build('nodeapp1:latest', './NodeJsApp')
+                    docker.build('nodeapplication:latest', './NodeJsApp')
                 }
             }
         }
