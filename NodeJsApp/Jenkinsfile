@@ -23,19 +23,11 @@ pipeline {
             steps {
                 script {
                     // Build Docker image from the NodeJsApp directory
-                    docker.build('nodeapplication:latest', './NodeJsApp')
+                    docker.build('nodeapplication:latest', './NodeJsApp').inside{sh 'echo "Hello"'}
                 }
             }
         }
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    // Run the dockercontainer
-                    docker.run('nodeapplication:latest', './NodeJsApp')
-                }
-            }
-        }
-       
+        
         
        stage('Check Running Process') {
             steps {
