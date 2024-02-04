@@ -35,7 +35,7 @@ pipeline {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '5bee2370-6a4f-4d90-a51a-52eb5632c548']]) {
                         sh "aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/s3x0y0f3"
                         sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ECR_REPO_URL}/${IMAGE_NAME}:${IMAGE_TAG}"
-                        sh "docker push ${ECR_REPO_URL}/${IMAGE_NAME}:${IMAGE_TAG}" 
+                        sh "docker push public.ecr.aws/s3x0y0f3/nodejs-container:latest"
                         } 
 
 
