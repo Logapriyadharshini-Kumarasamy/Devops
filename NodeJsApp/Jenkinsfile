@@ -40,10 +40,11 @@ pipeline {
 
 
                         }
-                    } else {
+                     else {
                         error("${processName} is not running.")
                     }
                 }
             }
         }
     }}
+
