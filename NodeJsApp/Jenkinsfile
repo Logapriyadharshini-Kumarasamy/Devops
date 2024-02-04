@@ -38,8 +38,11 @@ pipeline {
 
                     if (isRunning) {
                         echo "${processName} is running."
-                        sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO"
-                    
+                         // Fetch ECR login command without interactive login
+                    def ecrLoginCmd = sh(script: "aws ecr get-login-password --region $AWS_REGION", returnStdout: true).trim()
+
+                    // Execute the ECR login command
+                    sh "eval \$(echo '$ecrLoginCmd')"
 
                     // Tag the Docker image with ECR repository information
                         sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ECR_REPO/$IMAGE_NAME:$IMAGE_TAG"
