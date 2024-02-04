@@ -3,7 +3,7 @@ pipeline {
    
      environment {
         // AWS ECR details
-        AWS_REGION = 'US East (N. Virginia)'
+        AWS_REGION = 'us-east-1'
         ECR_REPO = 'nodejs-container'
         IMAGE_NAME = 'nodeapplication'
         IMAGE_TAG = 'latest'
@@ -24,6 +24,14 @@ pipeline {
                 script {
                     // Build Docker image from the NodeJsApp directory
                     docker.build('nodeapplication:latest', './NodeJsApp')
+                }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Run the dockercontainer
+                    docker.run('nodeapplication:latest', './NodeJsApp')
                 }
             }
         }
