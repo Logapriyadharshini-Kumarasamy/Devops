@@ -1,7 +1,7 @@
 pipeline {
     agent any
-   
-     environment {
+
+    environment {
         // AWS ECR details
         AWS_REGION = 'us-east-1'
         ECR_REPO = 'nodejs-container'
@@ -23,13 +23,14 @@ pipeline {
             steps {
                 script {
                     // Build Docker image from the NodeJsApp directory
-                    docker.build('nodeapplication:latest', './NodeJsApp').inside{sh 'echo "Hello"'}
+                    docker.build('nodeapplication:latest', './NodeJsApp').inside {
+                        sh 'echo "Hello"'
+                    }
                 }
             }
         }
-        
-        
-       stage('Check Running Process') {
+
+        stage('Check Running Process') {
             steps {
                 script {
                     // Check if the process is running
@@ -38,16 +39,16 @@ pipeline {
 
                     if (isRunning) {
                         echo "${processName} is running."
-                         // Fetch ECR login command without interactive login
-                    def ecrLoginCmd = sh(script: "aws ecr get-login-password --region $AWS_REGION", returnStdout: true).trim()
 
-                    // Execute the ECR login command
-                    sh "eval \$(echo '$ecrLoginCmd')"
+                        // Fetch ECR login command without interactive login
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '5bee2370-6a4f-4d90-a51a-52eb5632c548']]) {
+                            sh "aws ecr get-login-password --region $AWS_REGION"
+                        }
 
-                    // Tag the Docker image with ECR repository information
+                        // Tag the Docker image with ECR repository information
                         sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ECR_REPO/$IMAGE_NAME:$IMAGE_TAG"
 
-                    // Push the Docker image to ECR
+                        // Push the Docker image to ECR
                         sh "docker push $ECR_REPO/$IMAGE_NAME:$IMAGE_TAG"
                     } else {
                         error("${processName} is not running.")
