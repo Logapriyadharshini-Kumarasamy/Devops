@@ -32,13 +32,13 @@ pipeline {
 
                     if (isRunning) {
                         echo "${processName} is running."
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '5bee2370-6a4f-4d90-a51a-52eb5632c548']]) {
+                        sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO_URL}"
+                        sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ECR_REPO_URL}/${IMAGE_NAME}:${IMAGE_TAG}"
+                        sh "docker push ${ECR_REPO_URL}/${IMAGE_NAME}:${IMAGE_TAG}" 
+                        } 
 
-                        withDockerRegistry([credentialsId: '5bee2370-6a4f-4d90-a51a-52eb5632c548', url: "https://${ECR_REPO_URL}"]) {
-                            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '5bee2370-6a4f-4d90-a51a-52eb5632c548']]) {
-                                sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO_URL}"
-                                sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ECR_REPO_URL}/${IMAGE_NAME}:${IMAGE_TAG}"
-                                sh "docker push ${ECR_REPO_URL}/${IMAGE_NAME}:${IMAGE_TAG}"
-                            }
+
                         }
                     } else {
                         error("${processName} is not running.")
