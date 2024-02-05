@@ -19,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(${Image_NAME}:${Image_TAG}, './NodeJsApp').inside{sh "echo Hello!!"}
+                    docker.build("${Image_NAME}:${Image_TAG}", './NodeJsApp').inside{sh "echo Hello!!"}
                 }
             }
         }
