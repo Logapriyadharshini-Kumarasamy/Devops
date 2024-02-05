@@ -23,7 +23,7 @@ pipeline {
                     docker.build("${Image_NAME}:${Image_TAG}", './NodeJsApp')
 
                     // Run a command inside the Docker container
-                    docker.image("${Image_NAME}:${Image_TAG}").inside {
+                    docker.image("${Image_NAME}:${Image_TAG}",'./NodeJsApp').inside {
                         sh "echo Hello!!"
                     }
                 }
