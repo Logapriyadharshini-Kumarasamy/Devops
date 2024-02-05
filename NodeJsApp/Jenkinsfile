@@ -20,7 +20,7 @@ pipeline {
        steps{
          script {
                     // Build Docker image
-                    def customImage = docker.build("${Image_NAME}:${Image_TAG}", './NodeJsApp')
+                    def customImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", './NodeJsApp')
                     
                     // Run a command inside the Docker container
                     customImage.inside {
