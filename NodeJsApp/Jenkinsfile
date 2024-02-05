@@ -8,6 +8,8 @@ pipeline {
         AWS_CREDENTIALS_ID = '5bee2370-6a4f-4d90-a51a-52eb5632c548'
         ECR_REPO_URL = 'public.ecr.aws/s3x0y0f3'
         NGROK_URL='https://3e40-103-163-248-113.ngrok-free.app'
+        cluster = "nodejs-cluster"
+        service = "node-service"
     }
 
     stages {
@@ -52,6 +54,17 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to ECS') {
+          when {
+                // Define the condition for manual trigger
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
+          steps {
+            withAWS(credentials:'AWS_CREDENTIALS_ID', region: 'us-east-1') {
+            sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+        }
+      }
+     }
     }
     }
 
