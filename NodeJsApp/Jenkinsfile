@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Check Running Process') {
+        stage('Check Running Process and push to ECR') {
             steps {
                 script {
                     def processName = 'server.js'
