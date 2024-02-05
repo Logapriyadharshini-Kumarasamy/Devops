@@ -7,6 +7,7 @@ pipeline {
         IMAGE_TAG = 'latest'
         AWS_CREDENTIALS_ID = '5bee2370-6a4f-4d90-a51a-52eb5632c548'
         ECR_REPO_URL = 'public.ecr.aws/s3x0y0f3'
+        NGROK_URL='https://3e40-103-163-248-113.ngrok-free.app'
     }
 
     stages {
@@ -23,10 +24,7 @@ pipeline {
                     def customImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", './NodeJsApp')
                     
                     // Run a command inside the Docker container
-                    customImage.inside {
-                        sh "echo Hello!!"
-                        sh "ps -a"
-                    }
+                    sh "docker run -p 3000:3000 ${IMAGE_NAME}:${IMAGE_TAG}"
                 }}
         }
 
