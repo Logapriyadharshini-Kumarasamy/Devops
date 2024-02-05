@@ -18,6 +18,7 @@ pipeline {
 
         stage('Build Docker Image') {
          script {
+             steps{
                     // Build Docker image
                     def customImage = docker.build("${Image_NAME}:${Image_TAG}", './NodeJsApp')
                     
@@ -26,6 +27,7 @@ pipeline {
                         sh "echo Hello!!"
                     }
                 }}
+        }
 
         stage('Check Running Process and push to ECR') {
             steps {
