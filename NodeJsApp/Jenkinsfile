@@ -60,8 +60,8 @@ pipeline {
                 expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
             }
           steps {
-            withAWS(credentials:'AWS_CREDENTIALS_ID', region: 'us-east-1') {
-            sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: '5bee2370-6a4f-4d90-a51a-52eb5632c548']])  {
+            sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment --region us-east-1'
         }
       }
      }
