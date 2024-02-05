@@ -24,7 +24,9 @@ pipeline {
                     def customImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", './NodeJsApp')
                     
                     // Run a command inside the Docker container
-                    sh "docker run -p 3000:3000 ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker run -p 3000:3000 -d ${IMAGE_NAME}:${IMAGE_TAG}"
+             
+
                 }}
         }
 
