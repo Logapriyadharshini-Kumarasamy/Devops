@@ -25,6 +25,7 @@ pipeline {
                     // Run a command inside the Docker container
                     customImage.inside {
                         sh "echo Hello!!"
+                        sh "ps -a"
                     }
                 }}
         }
