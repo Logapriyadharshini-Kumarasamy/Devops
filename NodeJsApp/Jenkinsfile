@@ -28,6 +28,7 @@ pipeline {
                     }
                 }
         }
+        }
 
         stage('Check Running Process and push to ECR') {
             steps {
@@ -53,6 +54,6 @@ pipeline {
         }
     }
     }
-}
+
 
 
