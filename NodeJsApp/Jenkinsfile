@@ -8,8 +8,8 @@ pipeline {
         AWS_CREDENTIALS_ID = '5bee2370-6a4f-4d90-a51a-52eb5632c548'
         ECR_REPO_URL = 'public.ecr.aws/s3x0y0f3'
         NGROK_URL='https://3e40-103-163-248-113.ngrok-free.app'
-        cluster = "nodejs-cluster"
-        service = "node-service"
+        cluster = "node-cluster"
+        service = "node-service-1"
     }
 
     stages {
